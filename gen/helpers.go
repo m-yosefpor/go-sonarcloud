@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
-	. "github.com/dave/jennifer/jen"
-	"github.com/iancoleman/strcase"
 	"net/http"
 	"os"
 	"sort"
+
+	. "github.com/dave/jennifer/jen"
+	"github.com/iancoleman/strcase"
 )
 
 func exit(code int, s interface{}) {
@@ -65,7 +66,7 @@ func newRequest(responseExampleRequest ResponseExampleRequest) (*http.Request, e
 }
 
 func qualifier(pkg string) string {
-	return fmt.Sprintf("github.com/reinoudk/go-sonarcloud/sonarcloud/%s", pkg)
+	return fmt.Sprintf("github.com/m-yosefpor/go-sonarcloud/sonarcloud/%s", pkg)
 }
 
 func ifTrueGen(ok bool, statement *Statement) *Statement {

@@ -3,8 +3,8 @@ package sonarcloud
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/reinoudk/go-sonarcloud/sonarcloud/measures"
-	"github.com/reinoudk/go-sonarcloud/sonarcloud/paging"
+	"github.com/m-yosefpor/go-sonarcloud/sonarcloud/measures"
+	"github.com/m-yosefpor/go-sonarcloud/sonarcloud/paging"
 )
 
 // AUTOMATICALLY GENERATED, DO NOT EDIT BY HAND!

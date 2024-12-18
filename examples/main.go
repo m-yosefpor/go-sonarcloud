@@ -2,10 +2,11 @@ package main
 
 import (
 	"fmt"
-	"github.com/reinoudk/go-sonarcloud/sonarcloud"
-	"github.com/reinoudk/go-sonarcloud/sonarcloud/projects"
 	"log"
 	"os"
+
+	"github.com/m-yosefpor/go-sonarcloud/sonarcloud"
+	"github.com/m-yosefpor/go-sonarcloud/sonarcloud/projects"
 )
 
 func main() {

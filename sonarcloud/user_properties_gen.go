@@ -3,7 +3,7 @@ package sonarcloud
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/reinoudk/go-sonarcloud/sonarcloud/user_properties"
+	"github.com/m-yosefpor/go-sonarcloud/sonarcloud/user_properties"
 )
 
 // AUTOMATICALLY GENERATED, DO NOT EDIT BY HAND!

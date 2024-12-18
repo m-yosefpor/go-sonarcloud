@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/go-playground/form/v4"
-	"github.com/reinoudk/go-sonarcloud/sonarcloud/qualitygates"
+	"github.com/m-yosefpor/go-sonarcloud/sonarcloud/qualitygates"
 	"strings"
 )
 

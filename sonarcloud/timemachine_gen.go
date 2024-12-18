@@ -3,7 +3,7 @@ package sonarcloud
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/reinoudk/go-sonarcloud/sonarcloud/timemachine"
+	"github.com/m-yosefpor/go-sonarcloud/sonarcloud/timemachine"
 )
 
 // AUTOMATICALLY GENERATED, DO NOT EDIT BY HAND!

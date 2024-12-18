@@ -1,6 +1,6 @@
 package hotspots
 
-import paging "github.com/reinoudk/go-sonarcloud/sonarcloud/paging"
+import paging "github.com/m-yosefpor/go-sonarcloud/sonarcloud/paging"
 
 // AUTOMATICALLY GENERATED, DO NOT EDIT BY HAND!
 

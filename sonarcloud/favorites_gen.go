@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/go-playground/form/v4"
-	"github.com/reinoudk/go-sonarcloud/sonarcloud/favorites"
-	"github.com/reinoudk/go-sonarcloud/sonarcloud/paging"
+	"github.com/m-yosefpor/go-sonarcloud/sonarcloud/favorites"
+	"github.com/m-yosefpor/go-sonarcloud/sonarcloud/paging"
 	"strings"
 )
 
