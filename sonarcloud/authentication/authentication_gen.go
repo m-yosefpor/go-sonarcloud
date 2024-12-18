@@ -5,7 +5,7 @@ package authentication
 // LogoutRequest Logout a user.
 type LogoutRequest struct{}
 
-// ValidateRequest Check credentials.
+// ValidateRequest Check credentials. Returns true for anonymous user.
 type ValidateRequest struct{}
 
 // ValidateResponse is the response for ValidateRequest

@@ -21,32 +21,35 @@ type RepositoriesResponse struct {
 
 // SearchRequest Search for a collection of relevant rules matching a specified query.<br/>Since 5.5, following fields in the response have been deprecated :<ul><li>"effortToFixDescription" becomes "gapDescription"</li><li>"debtRemFnCoeff" becomes "remFnGapMultiplier"</li><li>"defaultDebtRemFnCoeff" becomes "defaultRemFnGapMultiplier"</li><li>"debtRemFnOffset" becomes "remFnBaseEffort"</li><li>"defaultDebtRemFnOffset" becomes "defaultRemFnBaseEffort"</li><li>"debtOverloaded" becomes "remFnOverloaded"</li></ul>
 type SearchRequest struct {
-	Activation          string `form:"activation,omitempty"`          // Filter rules that are activated or deactivated on the selected Quality profile. Ignored if the parameter 'qprofile' is not set.
-	ActiveSeverities    string `form:"active_severities,omitempty"`   // Comma-separated list of activation severities, i.e the severity of rules in Quality profiles.
-	Asc                 string `form:"asc,omitempty"`                 // Ascending sort
-	AvailableSince      string `form:"available_since,omitempty"`     // Filters rules added since date. Format is yyyy-MM-dd
-	Cwe                 string `form:"cwe,omitempty"`                 // Comma-separated list of CWE identifiers. Use 'unknown' to select rules not associated to any CWE.
-	F                   string `form:"f,omitempty"`                   // Comma-separated list of the fields to be returned in response. All the fields are returned by default, except actives.Since 5.5, following fields have been deprecated :<ul><li>"defaultDebtRemFn" becomes "defaultRemFn"</li><li>"debtRemFn" becomes "remFn"</li><li>"effortToFixDescription" becomes "gapDescription"</li><li>"debtOverloaded" becomes "remFnOverloaded"</li></ul>
-	Facets              string `form:"facets,omitempty"`              // Comma-separated list of the facets to be computed. No facet is computed by default.
-	IncludeExternal     string `form:"include_external,omitempty"`    // Include external engine rules in the results
-	Inheritance         string `form:"inheritance,omitempty"`         // Comma-separated list of values of inheritance for a rule within a quality profile. Used only if the parameter 'activation' is set.
-	IsTemplate          string `form:"is_template,omitempty"`         // Filter template rules
-	Languages           string `form:"languages,omitempty"`           // Comma-separated list of languages
-	Organization        string `form:"organization,omitempty"`        // Organization key
-	OwaspTop10          string `form:"owaspTop10,omitempty"`          // Comma-separated list of OWASP Top 10 lowercase categories.
-	Q                   string `form:"q,omitempty"`                   // UTF-8 search query
-	Qprofile            string `form:"qprofile,omitempty"`            // Quality profile key to filter on. Used only if the parameter 'activation' is set.
-	Repositories        string `form:"repositories,omitempty"`        // Comma-separated list of repositories
-	RuleKey             string `form:"rule_key,omitempty"`            // Key of rule to search for
-	RuleKeys            string `form:"rule_keys,omitempty"`           // Rule keys
-	S                   string `form:"s,omitempty"`                   // Sort field
-	SansTop25           string `form:"sansTop25,omitempty"`           // Comma-separated list of SANS Top 25 categories.
-	Severities          string `form:"severities,omitempty"`          // Comma-separated list of default severities. Not the same than severity of rules in Quality profiles.
-	SonarsourceSecurity string `form:"sonarsourceSecurity,omitempty"` // Comma-separated list of SonarSource security categories. Use 'others' to select rules not associated with any category
-	Statuses            string `form:"statuses,omitempty"`            // Comma-separated list of status codes
-	Tags                string `form:"tags,omitempty"`                // Comma-separated list of tags. Returned rules match any of the tags (OR operator)
-	TemplateKey         string `form:"template_key,omitempty"`        // Key of the template rule to filter on. Used to search for the custom rules based on this template.
-	Types               string `form:"types,omitempty"`               // Comma-separated list of types. Returned rules match any of the tags (OR operator)
+	Activation                   string `form:"activation,omitempty"`                   // Filter rules that are activated or deactivated on the selected Quality profile. Ignored if the parameter 'qprofile' is not set.
+	ActiveSeverities             string `form:"active_severities,omitempty"`            // Comma-separated list of activation severities, i.e the severity of rules in Quality profiles.
+	Asc                          string `form:"asc,omitempty"`                          // Ascending sort
+	AvailableSince               string `form:"available_since,omitempty"`              // Filters rules added since date. Format is yyyy-MM-dd
+	CleanCodeAttributeCategories string `form:"cleanCodeAttributeCategories,omitempty"` // Comma-separated list of Clean Code Attribute Categories
+	Cwe                          string `form:"cwe,omitempty"`                          // Comma-separated list of CWE identifiers. Use 'unknown' to select rules not associated to any CWE.
+	F                            string `form:"f,omitempty"`                            // Comma-separated list of the fields to be returned in response. All the fields are returned by default, except actives.Since 5.5, following fields have been deprecated :<ul><li>"defaultDebtRemFn" becomes "defaultRemFn"</li><li>"debtRemFn" becomes "remFn"</li><li>"effortToFixDescription" becomes "gapDescription"</li><li>"debtOverloaded" becomes "remFnOverloaded"</li></ul>
+	Facets                       string `form:"facets,omitempty"`                       // Comma-separated list of the facets to be computed. No facet is computed by default.
+	ImpactSeverities             string `form:"impactSeverities,omitempty"`             // Comma-separated list of Software Quality Severities
+	ImpactSoftwareQualities      string `form:"impactSoftwareQualities,omitempty"`      // Comma-separated list of Software Qualities
+	IncludeExternal              string `form:"include_external,omitempty"`             // Include external engine rules in the results
+	Inheritance                  string `form:"inheritance,omitempty"`                  // Comma-separated list of values of inheritance for a rule within a quality profile. Used only if the parameter 'activation' is set.
+	IsTemplate                   string `form:"is_template,omitempty"`                  // Filter template rules
+	Languages                    string `form:"languages,omitempty"`                    // Comma-separated list of languages
+	Organization                 string `form:"organization,omitempty"`                 // Organization key
+	OwaspTop10                   string `form:"owaspTop10,omitempty"`                   // Comma-separated list of OWASP Top 10 lowercase categories.
+	Q                            string `form:"q,omitempty"`                            // UTF-8 search query
+	Qprofile                     string `form:"qprofile,omitempty"`                     // Quality profile key to filter on. Used only if the parameter 'activation' is set.
+	Repositories                 string `form:"repositories,omitempty"`                 // Comma-separated list of repositories
+	RuleKey                      string `form:"rule_key,omitempty"`                     // Key of rule to search for
+	RuleKeys                     string `form:"rule_keys,omitempty"`                    // Rule keys
+	S                            string `form:"s,omitempty"`                            // Sort field
+	SansTop25                    string `form:"sansTop25,omitempty"`                    // Comma-separated list of SANS Top 25 categories.
+	Severities                   string `form:"severities,omitempty"`                   // Comma-separated list of default severities. Not the same than severity of rules in Quality profiles.
+	SonarsourceSecurity          string `form:"sonarsourceSecurity,omitempty"`          // Comma-separated list of SonarSource security categories. Use 'others' to select rules not associated with any category
+	Statuses                     string `form:"statuses,omitempty"`                     // Comma-separated list of status codes
+	Tags                         string `form:"tags,omitempty"`                         // Comma-separated list of tags. Returned rules match any of the tags (OR operator)
+	TemplateKey                  string `form:"template_key,omitempty"`                 // Key of the template rule to filter on. Used to search for the custom rules based on this template.
+	Types                        string `form:"types,omitempty"`                        // Comma-separated list of types. Returned rules match any of the tags (OR operator)
 }
 
 // SearchResponse is the response for SearchRequest

@@ -75,7 +75,7 @@ type BulkApplyTemplateRequest struct {
 type CreateTemplateRequest struct {
 	Description       string `form:"description,omitempty"`       // Description
 	Name              string `form:"name,omitempty"`              // Name
-	Organization      string `form:"organization,omitempty"`      // Key of organization, used when group name is set
+	Organization      string `form:"organization,omitempty"`      // Key of organization
 	ProjectKeyPattern string `form:"projectKeyPattern,omitempty"` // Project key pattern. Must be a valid Java regular expression
 }
 
@@ -215,7 +215,7 @@ type SearchProjectPermissionsResponseAll struct {
 
 // SearchTemplatesRequest List permission templates.<br />Requires the permission 'Administer' on the organization.
 type SearchTemplatesRequest struct {
-	Organization string `form:"organization,omitempty"` // Key of organization, used when group name is set
+	Organization string `form:"organization,omitempty"` // Key of organization
 	Q            string `form:"q,omitempty"`            // Limit search to permission template names that contain the supplied string.
 }
 

@@ -46,6 +46,7 @@ type AddCommentResponse struct {
 			Severity        string `json:"severity,omitempty"`
 			SoftwareQuality string `json:"softwareQuality,omitempty"`
 		} `json:"impacts,omitempty"`
+		IssueStatus               string   `json:"issueStatus,omitempty"`
 		Key                       string   `json:"key,omitempty"`
 		Line                      float64  `json:"line,omitempty"`
 		Message                   string   `json:"message,omitempty"`
@@ -120,6 +121,7 @@ type AssignResponse struct {
 			Severity        string `json:"severity,omitempty"`
 			SoftwareQuality string `json:"softwareQuality,omitempty"`
 		} `json:"impacts,omitempty"`
+		IssueStatus               string   `json:"issueStatus,omitempty"`
 		Key                       string   `json:"key,omitempty"`
 		Line                      float64  `json:"line,omitempty"`
 		Message                   string   `json:"message,omitempty"`
@@ -172,6 +174,7 @@ type BulkChangeRequest struct {
 	Assign            string `form:"assign,omitempty"`            // To assign the list of issues to a specific user (login), or un-assign all the issues
 	Comment           string `form:"comment,omitempty"`           // To add a comment to a list of issues
 	DoTransition      string `form:"do_transition,omitempty"`     // Transition
+	IsFeedback        string `form:"isFeedback,omitempty"`        // Define if the given comment is a feedback
 	Issues            string `form:"issues,omitempty"`            // Comma-separated list of issue keys
 	RemoveTags        string `form:"remove_tags,omitempty"`       // Remove tags
 	SendNotifications string `form:"sendNotifications,omitempty"` //
@@ -247,6 +250,7 @@ type DeleteCommentResponse struct {
 			Severity        string `json:"severity,omitempty"`
 			SoftwareQuality string `json:"softwareQuality,omitempty"`
 		} `json:"impacts,omitempty"`
+		IssueStatus               string   `json:"issueStatus,omitempty"`
 		Key                       string   `json:"key,omitempty"`
 		Line                      float64  `json:"line,omitempty"`
 		Message                   string   `json:"message,omitempty"`
@@ -281,8 +285,10 @@ type DeleteCommentResponse struct {
 	} `json:"users,omitempty"`
 }
 
-// DoTransitionRequest Do workflow transition on an issue. Requires authentication and Browse permission on project.<br/>The transitions 'wontfix' and 'falsepositive' require the permission 'Administer Issues'.<br/>The transitions involving security hotspots require the permission 'Administer Security Hotspot'.
+// DoTransitionRequest Do workflow transition on an issue. Requires authentication and Browse permission on project.<br/>The transitions 'accept', 'wontfix', and 'falsepositive' require the permission 'Administer Issues'.<br/>The transitions involving security hotspots require the permission 'Administer Security Hotspot'.
 type DoTransitionRequest struct {
+	Comment    string `form:"comment,omitempty"`    // Comment text
+	IsFeedback string `form:"isFeedback,omitempty"` // Define is the given comment is a feedback
 	Issue      string `form:"issue,omitempty"`      // Issue key
 	Transition string `form:"transition,omitempty"` // Transition
 }
@@ -321,6 +327,7 @@ type DoTransitionResponse struct {
 			Severity        string `json:"severity,omitempty"`
 			SoftwareQuality string `json:"softwareQuality,omitempty"`
 		} `json:"impacts,omitempty"`
+		IssueStatus               string   `json:"issueStatus,omitempty"`
 		Key                       string   `json:"key,omitempty"`
 		Line                      float64  `json:"line,omitempty"`
 		Message                   string   `json:"message,omitempty"`
@@ -395,6 +402,7 @@ type EditCommentResponse struct {
 			Severity        string `json:"severity,omitempty"`
 			SoftwareQuality string `json:"softwareQuality,omitempty"`
 		} `json:"impacts,omitempty"`
+		IssueStatus               string   `json:"issueStatus,omitempty"`
 		Key                       string   `json:"key,omitempty"`
 		Line                      float64  `json:"line,omitempty"`
 		Message                   string   `json:"message,omitempty"`
@@ -431,38 +439,41 @@ type EditCommentResponse struct {
 
 // SearchRequest Search for issues.<br>Requires the 'Browse' permission on the specified project(s).
 type SearchRequest struct {
-	AdditionalFields    string `form:"additionalFields,omitempty"`    // Comma-separated list of the optional fields to be returned in response. Action plans are dropped in 5.5, it is not returned in the response.
-	Asc                 string `form:"asc,omitempty"`                 // Ascending sort
-	Assigned            string `form:"assigned,omitempty"`            // To retrieve assigned or unassigned issues
-	Assignees           string `form:"assignees,omitempty"`           // Comma-separated list of assignee logins. The value '__me__' can be used as a placeholder for user who performs the request
-	Author              string `form:"author,omitempty"`              // SCM accounts. To set several values, the parameter must be called once for each value.
-	Authors             string `form:"authors,omitempty"`             // This parameter is deprecated, please use 'author' instead
-	Branch              string `form:"branch,omitempty"`              // Branch key
-	ComponentKeys       string `form:"componentKeys,omitempty"`       // Comma-separated list of component keys. Retrieve issues associated to a specific list of components (and all its descendants). A component can be a project, directory or file.
-	CreatedAfter        string `form:"createdAfter,omitempty"`        // To retrieve issues created after the given date (inclusive). <br>Either a date (server timezone) or datetime can be provided. <br>If this parameter is set, createdSince must not be set
-	CreatedAt           string `form:"createdAt,omitempty"`           // Datetime to retrieve issues created during a specific analysis
-	CreatedBefore       string `form:"createdBefore,omitempty"`       // To retrieve issues created before the given date (inclusive). <br>Either a date (server timezone) or datetime can be provided.
-	CreatedInLast       string `form:"createdInLast,omitempty"`       // To retrieve issues created during a time span before the current time (exclusive). Accepted units are 'y' for year, 'm' for month, 'w' for week and 'd' for day. If this parameter is set, createdAfter must not be set
-	Cwe                 string `form:"cwe,omitempty"`                 // Comma-separated list of CWE identifiers. Use 'unknown' to select issues not associated to any CWE.
-	FacetMode           string `form:"facetMode,omitempty"`           // Choose the returned value for facet items, either count of issues or sum of remediation effort.
-	Facets              string `form:"facets,omitempty"`              // Comma-separated list of the facets to be computed. No facet is computed by default.
-	Issues              string `form:"issues,omitempty"`              // Comma-separated list of issue keys
-	Languages           string `form:"languages,omitempty"`           // Comma-separated list of languages. Available since 4.4
-	OnComponentOnly     string `form:"onComponentOnly,omitempty"`     // Return only issues at a component's level, not on its descendants (modules, directories, files, etc). This parameter is only considered when componentKeys or componentUuids is set.
-	Organization        string `form:"organization,omitempty"`        // Organization key
-	OwaspTop10          string `form:"owaspTop10,omitempty"`          // Comma-separated list of OWASP Top 10 lowercase categories.
-	PullRequest         string `form:"pullRequest,omitempty"`         // Pull request id
-	Resolutions         string `form:"resolutions,omitempty"`         // Comma-separated list of resolutions
-	Resolved            string `form:"resolved,omitempty"`            // To match resolved or unresolved issues
-	Rules               string `form:"rules,omitempty"`               // Comma-separated list of coding rule keys. Format is &lt;repository&gt;:&lt;rule&gt;
-	S                   string `form:"s,omitempty"`                   // Sort field
-	SansTop25           string `form:"sansTop25,omitempty"`           // Comma-separated list of SANS Top 25 categories.
-	Severities          string `form:"severities,omitempty"`          // Comma-separated list of severities
-	SinceLeakPeriod     string `form:"sinceLeakPeriod,omitempty"`     // To retrieve issues created since the leak period.<br>If this parameter is set to a truthy value, createdAfter must not be set and one component id or key must be provided.
-	SonarsourceSecurity string `form:"sonarsourceSecurity,omitempty"` // Comma-separated list of SonarSource security categories. Use 'others' to select issues not associated with any category
-	Statuses            string `form:"statuses,omitempty"`            // Comma-separated list of statuses
-	Tags                string `form:"tags,omitempty"`                // Comma-separated list of tags.
-	Types               string `form:"types,omitempty"`               // Comma-separated list of types.
+	AdditionalFields             string `form:"additionalFields,omitempty"`             // Comma-separated list of the optional fields to be returned in response. Action plans are dropped in 5.5, it is not returned in the response.
+	Asc                          string `form:"asc,omitempty"`                          // Ascending sort
+	Assigned                     string `form:"assigned,omitempty"`                     // To retrieve assigned or unassigned issues
+	Assignees                    string `form:"assignees,omitempty"`                    // Comma-separated list of assignee logins. The value '__me__' can be used as a placeholder for user who performs the request
+	Author                       string `form:"author,omitempty"`                       // SCM accounts. To set several values, the parameter must be called once for each value.
+	Branch                       string `form:"branch,omitempty"`                       // Branch key
+	CleanCodeAttributeCategories string `form:"cleanCodeAttributeCategories,omitempty"` // Comma-separated list of clean code attribute categories.
+	ComponentKeys                string `form:"componentKeys,omitempty"`                // Comma-separated list of component keys. Retrieve issues associated to a specific list of components (and all its descendants). A component can be a project, directory or file.
+	CreatedAfter                 string `form:"createdAfter,omitempty"`                 // To retrieve issues created after the given date (inclusive). <br>Either a date (server timezone) or datetime can be provided. <br>If this parameter is set, createdSince must not be set
+	CreatedAt                    string `form:"createdAt,omitempty"`                    // Datetime to retrieve issues created during a specific analysis
+	CreatedBefore                string `form:"createdBefore,omitempty"`                // To retrieve issues created before the given date (inclusive). <br>Either a date (server timezone) or datetime can be provided.
+	CreatedInLast                string `form:"createdInLast,omitempty"`                // To retrieve issues created during a time span before the current time (exclusive). Accepted units are 'y' for year, 'm' for month, 'w' for week and 'd' for day. If this parameter is set, createdAfter must not be set
+	Cwe                          string `form:"cwe,omitempty"`                          // Comma-separated list of CWE identifiers. Use 'unknown' to select issues not associated to any CWE.
+	FacetMode                    string `form:"facetMode,omitempty"`                    // Choose the returned value for facet items, either count of issues or sum of remediation effort.
+	Facets                       string `form:"facets,omitempty"`                       // Comma-separated list of the facets to be computed. No facet is computed by default.
+	ImpactSeverities             string `form:"impactSeverities,omitempty"`             // Comma-separated list of impact severities.
+	ImpactSoftwareQualities      string `form:"impactSoftwareQualities,omitempty"`      // Comma-separated list of software qualities.
+	IssueStatuses                string `form:"issueStatuses,omitempty"`                // Comma-separated list of issue statuses
+	Issues                       string `form:"issues,omitempty"`                       // Comma-separated list of issue keys
+	Languages                    string `form:"languages,omitempty"`                    // Comma-separated list of languages. Available since 4.4
+	OnComponentOnly              string `form:"onComponentOnly,omitempty"`              // Return only issues at a component's level, not on its descendants (modules, directories, files, etc). This parameter is only considered when componentKeys or componentUuids is set.
+	Organization                 string `form:"organization,omitempty"`                 // Organization key
+	OwaspTop10                   string `form:"owaspTop10,omitempty"`                   // Comma-separated list of OWASP Top 10 lowercase categories.
+	PullRequest                  string `form:"pullRequest,omitempty"`                  // Pull request id
+	Resolutions                  string `form:"resolutions,omitempty"`                  // Comma-separated list of resolutions
+	Resolved                     string `form:"resolved,omitempty"`                     // To match resolved or unresolved issues
+	Rules                        string `form:"rules,omitempty"`                        // Comma-separated list of coding rule keys. Format is &lt;repository&gt;:&lt;rule&gt;
+	S                            string `form:"s,omitempty"`                            // Sort field
+	SansTop25                    string `form:"sansTop25,omitempty"`                    // Comma-separated list of SANS Top 25 categories.
+	Severities                   string `form:"severities,omitempty"`                   // Comma-separated list of severities
+	SinceLeakPeriod              string `form:"sinceLeakPeriod,omitempty"`              // To retrieve issues created since the leak period.<br>If this parameter is set to a truthy value, createdAfter must not be set and one component id or key must be provided.
+	SonarsourceSecurity          string `form:"sonarsourceSecurity,omitempty"`          // Comma-separated list of SonarSource security categories. Use 'others' to select issues not associated with any category
+	Statuses                     string `form:"statuses,omitempty"`                     // Comma-separated list of statuses
+	Tags                         string `form:"tags,omitempty"`                         // Comma-separated list of tags.
+	Types                        string `form:"types,omitempty"`                        // Comma-separated list of types.
 }
 
 // SearchResponse is the response for SearchRequest
@@ -510,6 +521,7 @@ type SearchResponse struct {
 			Severity        string `json:"severity,omitempty"`
 			SoftwareQuality string `json:"softwareQuality,omitempty"`
 		} `json:"impacts,omitempty"`
+		IssueStatus               string   `json:"issueStatus,omitempty"`
 		Key                       string   `json:"key,omitempty"`
 		Line                      float64  `json:"line,omitempty"`
 		Message                   string   `json:"message,omitempty"`
@@ -596,6 +608,7 @@ type SearchResponseAll struct {
 			Severity        string `json:"severity,omitempty"`
 			SoftwareQuality string `json:"softwareQuality,omitempty"`
 		} `json:"impacts,omitempty"`
+		IssueStatus               string   `json:"issueStatus,omitempty"`
 		Key                       string   `json:"key,omitempty"`
 		Line                      float64  `json:"line,omitempty"`
 		Message                   string   `json:"message,omitempty"`
@@ -632,6 +645,7 @@ type SearchResponseAll struct {
 }
 
 // SetSeverityRequest Change severity.<br/>Requires the following permissions:<ul>  <li>'Authentication'</li>  <li>'Browse' rights on project of the specified issue</li>  <li>'Administer Issues' rights on project of the specified issue</li></ul>
+// Deprecated: this action has been deprecated since version 25 Aug, 2023
 type SetSeverityRequest struct {
 	Issue    string `form:"issue,omitempty"`    // Issue key
 	Severity string `form:"severity,omitempty"` // New severity
@@ -671,6 +685,7 @@ type SetSeverityResponse struct {
 			Severity        string `json:"severity,omitempty"`
 			SoftwareQuality string `json:"softwareQuality,omitempty"`
 		} `json:"impacts,omitempty"`
+		IssueStatus               string   `json:"issueStatus,omitempty"`
 		Key                       string   `json:"key,omitempty"`
 		Line                      float64  `json:"line,omitempty"`
 		Message                   string   `json:"message,omitempty"`
@@ -747,6 +762,7 @@ type SetTagsResponse struct {
 			Severity        string `json:"severity,omitempty"`
 			SoftwareQuality string `json:"softwareQuality,omitempty"`
 		} `json:"impacts,omitempty"`
+		IssueStatus               string   `json:"issueStatus,omitempty"`
 		Key                       string   `json:"key,omitempty"`
 		Line                      float64  `json:"line,omitempty"`
 		Message                   string   `json:"message,omitempty"`
@@ -782,6 +798,7 @@ type SetTagsResponse struct {
 }
 
 // SetTypeRequest Change type of issue, for instance from 'code smell' to 'bug'.<br/>Requires the following permissions:<ul>  <li>'Authentication'</li>  <li>'Browse' rights on project of the specified issue</li>  <li>'Administer Issues' rights on project of the specified issue</li></ul>
+// Deprecated: this action has been deprecated since version 25 Aug, 2023
 type SetTypeRequest struct {
 	Issue string `form:"issue,omitempty"` // Issue key
 	Type  string `form:"type,omitempty"`  // New type
@@ -821,6 +838,7 @@ type SetTypeResponse struct {
 			Severity        string `json:"severity,omitempty"`
 			SoftwareQuality string `json:"softwareQuality,omitempty"`
 		} `json:"impacts,omitempty"`
+		IssueStatus               string   `json:"issueStatus,omitempty"`
 		Key                       string   `json:"key,omitempty"`
 		Line                      float64  `json:"line,omitempty"`
 		Message                   string   `json:"message,omitempty"`

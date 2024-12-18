@@ -40,9 +40,10 @@ type GroupsResponseAll struct {
 	} `json:"groups,omitempty"`
 }
 
-// SearchRequest Get a list of active users. <br/>The following fields are only returned when user has Administer System permission or for logged-in in user :<ul>   <li>'email'</li>   <li>'externalIdentity'</li>   <li>'externalProvider'</li>   <li>'groups'</li>   <li>'lastConnectionDate'</li>   <li>'tokensCount'</li></ul>Field 'lastConnectionDate' is only updated every hour, so it may not be accurate, for instance when a user authenticates many times in less than one hour.
+// SearchRequest Get a list of active users from organizations the user making the request belongs to. <br/>The following fields are only returned for the logged-in user :<ul>   <li>'email'</li>   <li>'externalIdentity'</li>   <li>'externalProvider'</li>   <li>'groups'</li>   <li>'lastConnectionDate'</li>   <li>'tokensCount'</li></ul>Field 'lastConnectionDate' is only updated every hour, so it may not be accurate, for instance when a user authenticates many times in less than one hour.
 type SearchRequest struct {
-	Q string `form:"q,omitempty"` // Filter on login, name and email
+	Ids string `form:"ids,omitempty"` // Filter on a list of one or more (max 30) user identifiers (comma-separated UUID V4)
+	Q   string `form:"q,omitempty"`   // Filter on login, name and email
 }
 
 // SearchResponse is the response for SearchRequest

@@ -111,7 +111,7 @@ type ListResponse struct {
 // UpdateRequest Update a Webhook.<br>Requires 'Administer' permission on the specified project, or global 'Administer' permission.
 type UpdateRequest struct {
 	Name    string `form:"name,omitempty"`    // new name of the webhook
-	Secret  string `form:"secret,omitempty"`  // If provided, secret will be used as the key to generate the HMAC hex (lowercase) digest value in the 'X-Sonar-Webhook-HMAC-SHA256' header
+	Secret  string `form:"secret,omitempty"`  // If provided, secret will be used as the key to generate the HMAC hex (lowercase) digest value in the 'X-Sonar-Webhook-HMAC-SHA256' header. If blank, any secret previously configured will be removed. If not set, the secret will remain unchanged.
 	Url     string `form:"url,omitempty"`     // new url to be called by the webhook
 	Webhook string `form:"webhook,omitempty"` // The key of the webhook to be updated, auto-generated value can be obtained through api/webhooks/create or api/webhooks/list
 }

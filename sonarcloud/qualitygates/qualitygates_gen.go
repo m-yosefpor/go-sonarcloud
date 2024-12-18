@@ -206,9 +206,10 @@ type ShowResponse struct {
 		Metric string  `json:"metric,omitempty"`
 		Op     string  `json:"op,omitempty"`
 	} `json:"conditions,omitempty"`
-	Id        float64 `json:"id,omitempty"`
-	IsBuiltIn bool    `json:"isBuiltIn,omitempty"`
-	Name      string  `json:"name,omitempty"`
+	Id               float64 `json:"id,omitempty"`
+	IsBuiltIn        bool    `json:"isBuiltIn,omitempty"`
+	IsCleanAsYouCode bool    `json:"isCleanAsYouCode,omitempty"`
+	Name             string  `json:"name,omitempty"`
 }
 
 // UnsetDefaultRequest This webservice is no more available : a default quality gate is mandatory.

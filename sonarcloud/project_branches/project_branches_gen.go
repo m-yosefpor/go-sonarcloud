@@ -8,15 +8,17 @@ type DeleteRequest struct {
 	Project string `form:"project,omitempty"` // Project key
 }
 
-// ListRequest List the branches of a project.<br/>Requires 'Browse' or 'Execute analysis' rights on the specified project.
+// ListRequest List the branches of a project.<br/>The statistics are the overall counts on long branches, and the count of issues detected on the changed code on short branches, and are only provided if the project parameter is specified.<br/>If the project parameter is specified, requires the user to have 'Browse' or 'Execute analysis' rights on that project. Otherwise, only returns branches from projects on which this user has 'Browse' or 'Execute analysis' rights.
 type ListRequest struct {
-	Project string `form:"project,omitempty"` // Project key
+	BranchIds string `form:"branchIds,omitempty"` // List of up to 50 branch IDs - required unless project key is provided
+	Project   string `form:"project,omitempty"`   // Project key - required unless branchIds is provided
 }
 
 // ListResponse is the response for ListRequest
 type ListResponse struct {
 	Branches []struct {
 		AnalysisDate string `json:"analysisDate,omitempty"`
+		BranchId     string `json:"branchId,omitempty"`
 		Commit       struct {
 			Sha string `json:"sha,omitempty"`
 		} `json:"commit,omitempty"`

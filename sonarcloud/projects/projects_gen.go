@@ -34,11 +34,13 @@ type BulkUpdateKeyResponse struct {
 
 // CreateRequest Create a project.<br/>Requires 'Create Projects' permission
 type CreateRequest struct {
-	Branch       string `form:"branch,omitempty"`       // SCM Branch of the project. The key of the project will become key:branch, for instance 'SonarQube:branch-5.0'
-	Name         string `form:"name,omitempty"`         // Name of the project. If name is longer than 500, it is abbreviated.
-	Organization string `form:"organization,omitempty"` // The key of the organization
-	Project      string `form:"project,omitempty"`      // Key of the project
-	Visibility   string `form:"visibility,omitempty"`   // Whether the created project should be visible to everyone, or only specific user/groups.<br/>If no visibility is specified, the default project visibility of the organization will be used.
+	Branch                 string `form:"branch,omitempty"`                 // SCM Branch of the project. The key of the project will become key:branch, for instance 'SonarQube:branch-5.0'
+	Name                   string `form:"name,omitempty"`                   // Name of the project. If name is longer than 500, it is abbreviated.
+	NewCodeDefinitionType  string `form:"newCodeDefinitionType,omitempty"`  // Project New Code Definition Type<br/><br/>New code definitions of the following types are allowed:<ul><li>previous_version</li><li>days</li><li>date</li><li>version</li></ul>
+	NewCodeDefinitionValue string `form:"newCodeDefinitionValue,omitempty"` // Project New Code Definition Value<br/><br/>For each new code definition type, a different value is expected:<ul><li>value is 'previous_version', when the new code definition type is previous_version</li><li>value should be a date <YYYY-MM-DD>, when the new code definition type is date</li><li>value should be version string, when the new code definition type is version</li><li>value should be a number between 1 and 90, when the new code definition type is days</li></ul>
+	Organization           string `form:"organization,omitempty"`           // The key of the organization
+	Project                string `form:"project,omitempty"`                // Key of the project
+	Visibility             string `form:"visibility,omitempty"`             // Whether the created project should be visible to everyone, or only specific user/groups.<br/>If no visibility is specified, the default project visibility of the organization will be used.
 }
 
 // CreateResponse is the response for CreateRequest
